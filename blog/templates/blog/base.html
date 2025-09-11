@@ -25,13 +25,13 @@
   <header>
     <h1 style="margin:0"><a href="{% url 'blog:post_list' %}">Mini Blog</a></h1>
     <nav>
-      <a class="btn" href="{% url 'blog:post_list' %}">Bütün postlar</a>
-{#      <a class="btn btn-primary" href="{% url 'blog:post_create' %}">Yeni post</a>#}
+      <a class="btn" href="{% url 'blog:post_list' %}">All Posts</a>
+      <a class="btn btn-primary" href="{% url 'blog:post_create' %}">New Post</a>
     </nav>
-{#    <form action="{% url 'blog:post_search' %}" method="get" style="margin-left:auto;">#}
-{#      <input type="text" name="q" placeholder="Axtar..." value="{{ q|default:'' }}">#}
-{#      <button class="btn">Axtar</button>#}
-{#    </form>#}
+    <form action="{% url 'blog:post_search' %}" method="get" style="margin-left:auto;">
+      <input type="text" name="q" placeholder="Search blog..." value="{{ q|default:'' }}">
+      <button class="btn">Axtar</button>
+    </form>
   </header>
 
   {% include "blog/_messages.html" %}

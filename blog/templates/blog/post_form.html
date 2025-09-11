@@ -1,0 +1,27 @@
+{% extends "blog/base.html" %}
+
+{% block title %}
+
+    {% if mode == "edit" %} Edit Post {% else %} New Post {% endif %}
+
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        <label>Title</label>
+        <input type="text" name="title" value="{{ title|default:post.title|default:"" }}" required/>
+
+        <label>Content</label>
+        <textarea rows="8" type="text" name="content" required>
+            {{ content|default:post.content|default:"" }}
+        </textarea>
+
+        <label>Author</label>
+        <input type="text" name="author" value="{{ author|default:post.author|default:"anonymous" }}" required/>
+
+        <button class="btn btn-primary" type="submit">{% if mode == "edit" %} Update {% else %}
+            Create {% endif %}</button>
+        <a class="btn" href="{% url 'blog:post_list' %}">Go Back</a>
+    </form>
+{% endblock %}
