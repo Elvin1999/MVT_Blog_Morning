@@ -1,6 +1,6 @@
 <tr>
     <td>
-        <a>{{ p.title }}</a>
+        <a href="{% url 'blog:post_detail' p.id %}">{{ p.title }}</a>
         <span class="muted">{{ p.content|truncatechars:80 }}</span>
     </td>
     <td>
