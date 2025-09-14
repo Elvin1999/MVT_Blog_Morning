@@ -1,3 +1,32 @@
+{#{% extends "blog/base.html" %}#}
+{##}
+{#{% block title %}#}
+{##}
+{#    {% if mode == "edit" %} Edit Post {% else %} New Post {% endif %}#}
+{##}
+{#{% endblock %}#}
+{##}
+{#{% block content %}#}
+{#    <form method="post">#}
+{#        {% csrf_token %}#}
+{#        <label>Title</label>#}
+{#        <input type="text" name="title" value="{{ title|default:post.title|default:"" }}" required/>#}
+{##}
+{#        <label>Content</label>#}
+{#        <textarea rows="8" type="text" name="content" required>#}
+{#            {{ content|default:post.content|default:"" }}#}
+{#        </textarea>#}
+{##}
+{#        <label>Author</label>#}
+{#        <input type="text" name="author" value="{{ author|default:post.author|default:"anonymous" }}" required/>#}
+{##}
+{#        <button class="btn btn-primary" type="submit">{% if mode == "edit" %} Update {% else %}#}
+{#            Create {% endif %}</button>#}
+{#        <a class="btn" href="{% url 'blog:post_list' %}">Go Back</a>#}
+{#    </form>#}
+{#{% endblock %}#}
+
+
 {% extends "blog/base.html" %}
 
 {% block title %}
@@ -7,21 +36,38 @@
 {% endblock %}
 
 {% block content %}
-    <form method="post">
+    <form method="post" novalidate>
         {% csrf_token %}
-        <label>Title</label>
-        <input type="text" name="title" value="{{ title|default:post.title|default:"" }}" required/>
+        {{ form.non_field_errors }}
+        <div>
+            {{ form.title.label_tag }} {{ form.title }}
+            {{ form.title.errors }}
+        </div>
 
-        <label>Content</label>
-        <textarea rows="8" type="text" name="content" required>
-            {{ content|default:post.content|default:"" }}
-        </textarea>
+        <div>
+            {{ form.content.label_tag }} {{ form.content }}
+            {{ form.content.errors }}
+        </div>
 
-        <label>Author</label>
-        <input type="text" name="author" value="{{ author|default:post.author|default:"anonymous" }}" required/>
+        <div>
+            {{ form.author.label_tag }} {{ form.author }}
+            {{ form.author.errors }}
+        </div>
 
-        <button class="btn btn-primary" type="submit">{% if mode == "edit" %} Update {% else %}
-            Create {% endif %}</button>
-        <a class="btn" href="{% url 'blog:post_list' %}">Go Back</a>
+    <button class="btn btn-primary" type="submit">
+            {% if mode == 'edit' %}Update{% else %}Create {% endif %}
+    </button>
+    <a class="btn" href="{% url 'blog:post_list' %}">Go Back</a>
     </form>
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+

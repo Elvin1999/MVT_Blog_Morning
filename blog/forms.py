@@ -12,14 +12,14 @@ class PostForm(forms.ModelForm):
             'author': forms.TextInput(attrs={'class':'form-control','placeholder':'Author'}),
         }
 
-        def clean_title(self):
-            title=(self.cleaned_data.get('title') or "").strip()
-            if len(title)<3:
-                raise forms.ValidationError("Title must be at least 3 characters long")
-            return title
+    def clean_title(self):
+        title=(self.cleaned_data.get('title') or "").strip()
+        if len(title)<3:
+            raise forms.ValidationError("Title must be at least 3 characters long")
+        return title
 
-        def clean_content(self):
-            content=(self.cleaned_data.get('content') or "").strip()
-            if len(content)<3:
-                raise forms.ValidationError("Content must be at least 3 characters long")
-            return content
+    def clean_content(self):
+        content=(self.cleaned_data.get('content') or "").strip()
+        if len(content)<3:
+            raise forms.ValidationError("Content must be at least 3 characters long")
+        return content

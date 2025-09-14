@@ -129,3 +129,25 @@ def post_detail_by_slug(request, slug:str):
     post=get_object_or_404(Post,slug=slug) #ORM SELECT WHERE slug=slug . . .
     return render(request, 'blog/post_detail.html', {'post':post})
 
+def post_edit(request, pk:int):
+    post=get_object_or_404(Post,pk=pk)
+    if request.method == "GET":
+        form=PostForm(instance=post)
+        return render(request, 'blog/post_form.html', {'form':form,"mode":"edit","post":post})
+    form=PostForm(request.POST, instance=post)
+    if form.is_valid():
+        post=form.save() # ORM updated
+        messages.success(request, "Post edited successfully")
+        return redirect('blog:post_detail',slug=post.slug)
+
+    messages.error(request, "There were errors in Form")
+    return render(request, 'blog/post_form.html', {'form':form,"mode":"edit","post":post})
+
+def post_delete(request, pk:int):
+    post=get_object_or_404(Post,pk=pk)
+    if request.method == "GET":
+        return render(request, 'blog/post_confirm_delete.html', {'post':post})
+    post.delete()
+    messages.success(request, "Post deleted successfully")
+    return redirect('blog:post_list')
+

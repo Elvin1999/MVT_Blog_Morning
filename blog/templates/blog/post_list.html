@@ -3,29 +3,55 @@
 {% block title %} Posts - Mini Blog {% endblock %}
 
 {% block content %}
-<h2>All Posts</h2>
+    <h2>All Posts</h2>
 
-{% if posts %}
-    <table>
-        <thead>
-        <tr>
-            <th>
-                Header
-            </th>
-            <th>
-                Author
-            </th>
-            <th>
-                Date
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for p in posts %}
-        {%  include "blog/_post_row.html" with p=p %}
-        {% endfor %}
-        </tbody>
-    </table>
-{% endif %}
+    {% if posts %}
+        <table>
+            <thead>
+            <tr>
+                <th>
+                    Header
+                </th>
+                <th>
+                    Author
+                </th>
+                <th>
+                    Date
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for p in posts %}
+                <tr>
+                    <td>
+                        <a href="{% url 'blog:post_detail' p.slug %}">{{ p.title }}</a>
+                        <span class="muted">{{ p.content|truncatechars:80 }}</span>
+                    </td>
+                    <td>
+                        {{ p.author }}
+                    </td>
+                    <td>
+                        {{ p.created_at|date:"Y-m-d H:i" }}
+                        {% if p.updated_at %} <br>
+                            <span class="muted"> upd: {{ p.updated_at|date:"Y-m-d H:i" }}  </span> {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div style="margin-top:12px">
+            {% if page_obj.has_previous %}
+                <a class="btn" href="?q={{ q }}&page={{ page_obj.previous_page_number }}">Previous</a>
+            {% endif %}
+            <span class="muted">Page {{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a class="btn" href="?q={{ q }}&page={{ page_obj.next_page_number }}">Next</a>
+            {% endif %}
+        </div>
+
+    {% else %}
+        <p class="muted">No post exist</p>
+    {% endif %}
 
 {% endblock %}
